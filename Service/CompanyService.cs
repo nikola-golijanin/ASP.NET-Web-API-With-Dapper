@@ -1,5 +1,7 @@
 ﻿using Contracts;
+using Entities.Models;
 using Service.Contracts;
+using Shared.DataTransferObjects;
 
 namespace Service;
 
@@ -12,5 +14,11 @@ public sealed class CompanyService : ICompanyService
     {
         _repository = repository;
         _logger = logger;
+    }
+
+    public async Task<IEnumerable<CompanyDto>> GetAllCompanies()
+    {
+        var companies = await _repository.Company.GetAllCompanies();
+        return companies;
     }
 }
