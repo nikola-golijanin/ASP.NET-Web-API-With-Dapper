@@ -15,10 +15,12 @@ builder.Services.ConfigureLoggerService();
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<Database>();
 builder.Services.ConfigureFluentMigrator(builder.Configuration);
+builder.Services.ConfigureRepositoryManager();
+builder.Services.ConfigureServiceManager();
 
 
 builder.Services.AddControllers()
-	.AddApplicationPart(typeof(CompanyEmployees.Presentation.AssemblyReference).Assembly);
+    .AddApplicationPart(typeof(CompanyEmployees.Presentation.AssemblyReference).Assembly);
 
 var app = builder.Build();
 
@@ -26,13 +28,13 @@ var logger = app.Services.GetRequiredService<ILoggerManager>();
 app.ConfigureExceptionHandler(logger);
 
 if (app.Environment.IsProduction())
-	app.UseHsts();
+    app.UseHsts();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
-	ForwardedHeaders = ForwardedHeaders.All
+    ForwardedHeaders = ForwardedHeaders.All
 });
 
 app.UseCors("CorsPolicy");
